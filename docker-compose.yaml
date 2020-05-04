@@ -1,5 +1,4 @@
 version: '3.3'
-#sudo mkdir -p ~/machine1 && sudo chmod -R 777 ~/machine1
 #user1/password
 services:
   mygit:
@@ -8,7 +7,7 @@ services:
      - 48086:022
      - 48085:3000
     volumes:
-      - ~/machine1/gogs:/data
+      - ~/gogs:/data
     restart: always
     environment:
       NO_REQUIRE: dummy
@@ -22,7 +21,7 @@ services:
      - 48080:8080
      - 48081:50000
     volumes:
-      - ~/machine1/jenkins/jenkins_home/:/var/jenkins_home
+      - ~/jenkins/jenkins_home/:/var/jenkins_home
     restart: always
     environment:
       DUMMY_PARAM_JAVA_OPTS: -Djenkins.install.runSetupWizard=false
@@ -32,10 +31,10 @@ services:
     ports:
      - 5001:5000
     volumes:
-      - ~/machine1/myartifactory/:/var/lib/registry
+      - ~/myartifactory/:/var/lib/registry
     restart: always
     environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:5001    
+      REGISTRY_HTTP_ADDR: '0.0.0.0:5001'
       STORAGE_PATH: /registry
       SETTINGS_FLAVOR: local
       SEARCH_BACKEND: sqlalchemy
