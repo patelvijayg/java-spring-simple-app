@@ -1,0 +1,44 @@
+version: '3.3'
+#sudo mkdir -p ~/machine1 && sudo chmod -R 777 ~/machine1
+#user1/password
+services:
+  mygit:
+    image: gogs/gogs
+    ports:
+     - 48086:022
+     - 48085:3000
+    volumes:
+      - ~/machine1/gogs:/data
+    restart: always
+    environment:
+      NO_REQUIRE: dummy
+
+  jenkins-master:
+#    image: myjenkins
+    build: .
+    ports:
+     - 48080:8080
+     - 48081:50000
+    volumes:
+      - ~/machine1/jenkins/jenkins_home/:/var/jenkins_home
+    restart: always
+    environment:
+      DUMMY_PARAM_JAVA_OPTS: -Djenkins.install.runSetupWizard=false
+
+  myartifactory:
+    image: registry:2
+    ports:
+     - 5001:5000
+    volumes:
+      - ~/machine1/myartifactory/:/var/lib/registry
+    restart: always
+    environment:
+      REGISTRY_HTTP_ADDR: 0.0.0.0:5001    
+      STORAGE_PATH: /registry
+      SETTINGS_FLAVOR: local
+      SEARCH_BACKEND: sqlalchemy
+      LOGLEVEL: DEBUG
+
+#docker run -it -d --name jenkins-master -p 48080:8080 -p 48081:50000 -v ~/machine1/jenkins/jenkins_home/:/var/jenkins_home myjenkins
+#docker run -it -d --name myartifactory -p 5001:5000 -v ~/machine1/myartifactory/:/var/lib/registry -e SETTINGS_FLAVOR=local -e STORAGE_PATH=/registry -e SEARCH_BACKEND=sqlalchemy -e LOGLEVEL=DEBUG registry:2
+#docker run -it -d --name mygit -p 48086:022 -p 48085:3000 -v ~/machine1/gogs:/data gogs/gogs
