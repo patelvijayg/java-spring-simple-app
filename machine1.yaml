@@ -35,7 +35,6 @@ services:
       - ~/machine1/myartifactory/:/var/lib/registry
     restart: always
     environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:5001    
       STORAGE_PATH: /registry
       SETTINGS_FLAVOR: local
       SEARCH_BACKEND: sqlalchemy
