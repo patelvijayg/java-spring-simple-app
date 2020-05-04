@@ -15,7 +15,9 @@ services:
 
   jenkins-master:
 #    image: myjenkins
-    build: .
+    build:
+     context: .
+     dockerfile: master_jenkins.txt     
     ports:
      - 48080:8080
      - 48081:50000
